@@ -1,4 +1,5 @@
 from __future__ import print_function
+import random
 
 def grow_snake(snk, dir):
     if dir == 1:
@@ -12,21 +13,11 @@ def grow_snake(snk, dir):
 
     return(snk)
 
-def move_snake(snk, dir):
-    if dir == 1:
-        snk.insert(0, [snk[0][0]-1, snk[0][1]])
-    elif dir == 2:
-        snk.insert(0, [snk[0][0], snk[0][1]+1])
-    elif dir == 3:
-        snk.insert(0, [snk[0][0]+1, snk[0][1]])
-    elif dir == 4:
-        snk.insert(0, [snk[0][0], snk[0][1]-1])
-
+def remove_snake_tail(snk, dir):
     del snk[len(snk) - 1]
-
     return(snk)
 
-def update_field(fld, size, snk):
+def update_field(fld, size, snk, orb_loc):
     for x in range(0, size):
         for y in range(0, size):
             if x == 0 or y == 0 or x == size - 1 or y == size - 1:
@@ -36,6 +27,8 @@ def update_field(fld, size, snk):
 
     for x in range(0, len(snk)):
         fld[snk[x][0]][snk[x][1]] = "X"
+
+    fld[orb_loc[0]][orb_loc[1]] = "O"
 
     return(fld)
 
@@ -58,11 +51,32 @@ def is_game_over(fld, snk):
 
     return False
 
+def create_orb(fld, size):
+    random.seed()
+    temp1 = random.randint(1, size-2)
+    temp2 = random.randint(1, size-2)
+    while (fld[temp1][temp2] != " "):
+        temp1 = random.randint(1, size-2)
+        temp2 = random.randint(1, size-2)
+
+    orb_loc = [temp1, temp2]
+
+    return orb_loc
+
+def snake_is_on_orb(orb_loc, snk):
+    if [snk[0][0],snk[0][1]] == orb_loc:
+        return True
+    else:
+        return False
+
+################################################################################
+
 #variables
 field = []
 snake = []
 size = 20
 direction = 3
+orb = []
 
 #create initial snake
 snake.append([int(size / 2), int(size / 2)])
@@ -78,11 +92,24 @@ for x in range(0, size):
         else:
             field[x].append(" ")
 
+#create initial orb
+orb = create_orb(field, size)
+field = update_field(field, size, snake, orb)
+
 while is_game_over(field, snake) == False:
-    field = update_field(field, size, snake)
+    field = update_field(field, size, snake, orb)
     draw_field(field)
 
     if is_game_over(field, snake) == False:
         direction = int(input(": "))
 
-        snake = grow_snake(snake, direction)
+        if snake_is_on_orb(orb, grow_snake(snake, direction)) == True:
+            orb = create_orb(field, size)
+        else:
+            snake = remove_snake_tail(snake, direction)
+
+print("\n\n")
+print("-----------------------------------------")
+print("               -Game Over-\n")
+print("\t\tScore:\t" + str(len(snake)))
+print("-----------------------------------------")
