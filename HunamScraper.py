@@ -116,3 +116,5 @@ print("\n")
 
 for x in choose_foods(spending_cash, new_complete_menu_prices, complete_menu_items):
     print(x)
+
+print("\n")
