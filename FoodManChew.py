@@ -13,18 +13,4 @@ def remove_tags(temp):
     temp = temp.split(">")[len(temp.split(">")) - 1]
     return temp
 
-soup = BeautifulSoup(urllib2.urlopen('http://people.cis.ksu.edu/~hahnd11/First%20Site/').read())
-
-page_title = soup.title.string
-
-print("Web page title: " + page_title)
-
-fav_heroes = filter(remove_newlines, soup.body.ol.contents)
-
-for x in range(0,len(fav_heroes)):
-    fav_heroes[x] = remove_tags(fav_heroes[x])
-
-print("\nDalton's Favorite Heroes:")
-
-for x in range(0,len(fav_heroes)):
-    print(fav_heroes[x])
+soup = BeautifulSoup(urllib2.urlopen('').read())
