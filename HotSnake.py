@@ -3,13 +3,13 @@ import random
 
 #grows the snake one forward
 def grow_snake(snk, dir):
-    if dir == 1:
+    if dir == "w":
         snk.insert(0, [snk[0][0]-1, snk[0][1]])
-    elif dir == 2:
+    elif dir == "d":
         snk.insert(0, [snk[0][0], snk[0][1]+1])
-    elif dir == 3:
+    elif dir == "s":
         snk.insert(0, [snk[0][0]+1, snk[0][1]])
-    elif dir == 4:
+    elif dir == "a":
         snk.insert(0, [snk[0][0], snk[0][1]-1])
 
     return(snk)
@@ -117,7 +117,8 @@ while is_game_over(field, snake) == False:
     if is_game_over(field, snake) == False:
         #DELETE THE LINE BELOW
         print(distance_to_orb(orb, snake))
-        direction = int(input(": "))
+        #gather user input
+        direction = str(input(": "))
 
         #check to see if the snake has landed on the orb
         if snake_is_on_orb(orb, grow_snake(snake, direction)) == True:
