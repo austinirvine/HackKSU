@@ -1,5 +1,6 @@
 import urllib2
 from bs4 import BeautifulSoup
+import random
 
 def remove_newlines(temp):
     if temp.find("u'\n'") == -1:
@@ -53,8 +54,22 @@ def sort_menu_costs(items, prices):
                 items[x-1] = temp
     return items
 
-#def choose_foods(cash):
+def choose_foods(cash, prices, items):
+    random.seed()
+    selections = []
+    while cash > prices[0]:
+        for x in range(0, len(prices)):
+            if prices[x] > cash:
+                temp1 = x - 1
+                break
+            elif x == len(prices) - 1:
+                temp1 = x
 
+        temp2 = random.randint(0, temp1)
+        cash -= prices[temp2]
+        selections.append(str(items[temp2]))
+
+    return selections
 
 soup = BeautifulSoup(urllib2.urlopen('http://www.hunamexpress.com/#/').read())
 
@@ -85,16 +100,19 @@ menu_section = return_menu_section("category21971")
 complete_menu_items.extend(return_menu_items(menu_section))
 complete_menu_prices.extend(return_prices(menu_section))
 
-spending_cash = input("Input cash to spend: $")
+spending_cash = float(input("Input cash to spend: $"))
 
 complete_menu_items = sort_menu_costs(complete_menu_items, complete_menu_prices)
 complete_menu_prices.sort()
 
 new_complete_menu_prices = prices_to_float(complete_menu_prices)
 
-#choose_foods(spending_cash)
-
 print("\n")
 
 for x in range(0, len(complete_menu_items)):
     print(str(new_complete_menu_prices[x]) + "\t" + complete_menu_items[x])
+
+print("\n")
+
+for x in choose_foods(spending_cash, new_complete_menu_prices, complete_menu_items):
+    print(x)
