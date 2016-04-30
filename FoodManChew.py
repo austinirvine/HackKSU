@@ -10,7 +10,7 @@ def remove_newlines(temp):
 def remove_tags(temp):
     temp = str(temp)
     temp = temp.split("</", 2)[0]
-    temp = temp.split("g>",2)[1]
+    temp = temp.split(">")[len(temp.split(">")) - 1]
     return temp
 
 soup = BeautifulSoup(urllib2.urlopen('http://people.cis.ksu.edu/~hahnd11/First%20Site/').read())
