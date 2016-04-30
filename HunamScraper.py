@@ -48,6 +48,19 @@ menu_section = return_menu_section("category21973")
 complete_menu_items.extend(return_menu_items(menu_section))
 complete_menu_prices.extend(return_prices(menu_section))
 
+#chef's specialties
+menu_section = return_menu_section("category21963")
+complete_menu_items.extend(return_menu_items(menu_section))
+complete_menu_prices.extend(return_prices(menu_section))
+
+del complete_menu_prices[len(complete_menu_prices) - 1]
+del complete_menu_items[len(complete_menu_items) - 1]
+
+#diet dishes
+menu_section = return_menu_section("category21971")
+complete_menu_items.extend(return_menu_items(menu_section))
+complete_menu_prices.extend(return_prices(menu_section))
+
 print("\n")
 
 for x in range(0, len(complete_menu_items)):
