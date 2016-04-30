@@ -69,6 +69,9 @@ def snake_is_on_orb(orb_loc, snk):
     else:
         return False
 
+def distance_to_orb(orb_loc, snk):
+    return(abs(orb_loc[0]-snk[0][0]) + abs(orb_loc[1] - snk[0][1]))
+
 ################################################################################
 
 #variables
