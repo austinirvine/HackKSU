@@ -28,7 +28,7 @@ def update_field(fld, size, snk, orb_loc):
     for x in range(0, len(snk)):
         fld[snk[x][0]][snk[x][1]] = "X"
 
-    fld[orb_loc[0]][orb_loc[1]] = "O"
+    #fld[orb_loc[0]][orb_loc[1]] = "O"
 
     return(fld)
 
@@ -104,6 +104,8 @@ while is_game_over(field, snake) == False:
     draw_field(field)
 
     if is_game_over(field, snake) == False:
+        #DELETE THE LINE BELOW
+        print(distance_to_orb(orb, snake))
         direction = int(input(": "))
 
         if snake_is_on_orb(orb, grow_snake(snake, direction)) == True:
