@@ -6,3 +6,7 @@ soup = BeautifulSoup(urllib2.urlopen('http://people.cis.ksu.edu/~hahnd11/New%20S
 page_title = soup.title.string
 
 print(page_title)
+
+paragraph = soup.p
+
+print(paragraph)
