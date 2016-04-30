@@ -13,4 +13,8 @@ def remove_tags(temp):
     temp = temp.split(">")[len(temp.split(">")) - 1]
     return temp
 
-soup = BeautifulSoup(urllib2.urlopen('').read())
+soup = BeautifulSoup(urllib2.urlopen('http://www.hunamexpress.com/#/').read())
+
+page_title = soup.title.string
+
+print("Web page title: " + page_title)
