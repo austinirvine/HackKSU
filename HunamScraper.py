@@ -19,11 +19,17 @@ def return_menu_section(cat):
 def return_menu_items(temp):
     temp = str(temp)
     arr = temp.split("\"menu-item-name\">")
+    del arr[0]
+    for x in range(0, len(arr)):
+        arr[x] = remove_tags(arr[x])
     return arr
 
 def return_prices(temp):
     temp = str(temp)
     arr = temp.split("\"menu-item-price\">")
+    del arr[0]
+    for x in range(0, len(arr)):
+        arr[x] = remove_tags(arr[x])
     return arr
 
 soup = BeautifulSoup(urllib2.urlopen('http://www.hunamexpress.com/#/').read())
@@ -32,20 +38,17 @@ page_title = soup.title.string
 
 print("Web page title: " + page_title)
 
+#appetizers
 menu_section = return_menu_section("category21972")
+complete_menu_items = return_menu_items(menu_section)
+complete_menu_prices = return_prices(menu_section)
 
-menu_items = return_menu_items(menu_section)
-
-menu_prices = return_prices(menu_section)
-
-del menu_items[0]
-del menu_prices[0]
-
-for x in range(0, len(menu_items)):
-    menu_items[x] = remove_tags(menu_items[x])
-    menu_prices[x] = remove_tags(menu_prices[x])
+#soups
+menu_section = return_menu_section("category21973")
+complete_menu_items.extend(return_menu_items(menu_section))
+complete_menu_prices.extend(return_prices(menu_section))
 
 print("\n")
 
-for x in range(0, len(menu_items)):
-    print(menu_prices[x] + "\t" + menu_items[x])
+for x in range(0, len(complete_menu_items)):
+    print(complete_menu_prices[x] + "\t" + complete_menu_items[x])
