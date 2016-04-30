@@ -32,6 +32,24 @@ def return_prices(temp):
         arr[x] = remove_tags(arr[x])
     return arr
 
+def sort_menu_costs(items, prices):
+    done = False
+    while(done == False):
+        done = True
+        for x in range(1, len(prices)):
+            if prices[x - 1] > prices[x]:
+                done = False
+                temp = prices[x]
+                prices[x] = prices[x-1]
+                prices[x-1] = temp
+                temp = items[x]
+                items[x] = items[x-1]
+                items[x-1] = temp
+    return items
+
+#def choose_foods(cash):
+
+
 soup = BeautifulSoup(urllib2.urlopen('http://www.hunamexpress.com/#/').read())
 
 page_title = soup.title.string
@@ -60,6 +78,13 @@ del complete_menu_items[len(complete_menu_items) - 1]
 menu_section = return_menu_section("category21971")
 complete_menu_items.extend(return_menu_items(menu_section))
 complete_menu_prices.extend(return_prices(menu_section))
+
+spending_cash = input("Input cash to spend: $")
+
+complete_menu_items = sort_menu_costs(complete_menu_items, complete_menu_prices)
+complete_menu_prices.sort()
+
+#choose_foods(spending_cash)
 
 print("\n")
 
