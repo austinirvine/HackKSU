@@ -32,6 +32,12 @@ def return_prices(temp):
         arr[x] = remove_tags(arr[x])
     return arr
 
+def prices_to_float(prices):
+    fprices = [float(prices[0].split("$")[1])]
+    for x in range(1, len(prices)):
+        fprices = fprices + [float(prices[x].split("$")[1])]
+    return(fprices)
+
 def sort_menu_costs(items, prices):
     done = False
     while(done == False):
@@ -84,9 +90,11 @@ spending_cash = input("Input cash to spend: $")
 complete_menu_items = sort_menu_costs(complete_menu_items, complete_menu_prices)
 complete_menu_prices.sort()
 
+new_complete_menu_prices = prices_to_float(complete_menu_prices)
+
 #choose_foods(spending_cash)
 
 print("\n")
 
 for x in range(0, len(complete_menu_items)):
-    print(complete_menu_prices[x] + "\t" + complete_menu_items[x])
+    print(str(new_complete_menu_prices[x]) + "\t" + complete_menu_items[x])
