@@ -7,6 +7,7 @@ page_title = soup.title.string
 
 print(page_title)
 
-paragraph = soup.p
+fav_heroes = soup.body.ol.contents
 
-print(paragraph)
+for x in range(0,len(fav_heroes)):
+    print(fav_heroes[x])
