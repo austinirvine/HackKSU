@@ -29,7 +29,9 @@ def update_field(fld, size, snk, orb_loc):
             else:
                 field[x][y] = " "
 
-    for x in range(0, len(snk)):
+    #construct the snake with a delta for a head
+    fld[snk[0][0]][snk[0][1]] = "Δ"
+    for x in range(1, len(snk)):
         fld[snk[x][0]][snk[x][1]] = "X"
 
     #to see the orb, uncomment the following line
@@ -46,11 +48,13 @@ def draw_field(fld):
 
 #checks to see if the game is over (player hits wall or themself)
 def is_game_over(fld, snk):
+    #check to see if snake has hit a boundary
     for x in range(0, size):
         for y in range(0, size):
             if (x == 0 or y == 0 or x == size - 1 or y == size - 1) and fld[x][y] != "#":
                 return True
 
+    #check to see if snake has hit itself
     for x in range(0, len(snk)):
         for y in range(0, len(snk)):
             if [[snk[x][0]],[snk[x][1]]] == [[snk[y][0]],[snk[y][1]]] and x != y:
@@ -83,6 +87,7 @@ def snake_is_on_orb(orb_loc, snk):
 def distance_to_orb(orb_loc, snk):
     return(abs(orb_loc[0]-snk[0][0]) + abs(orb_loc[1] - snk[0][1]))
 
+#changes the lamp light color and brightness
 def update_light(color, bright):
     payload = {
         "color": color,
@@ -102,6 +107,7 @@ temp = 0
 color = "white"
 bright = 1
 
+#turn light on
 payload = {
     "power": "on",
 }
@@ -134,11 +140,14 @@ while is_game_over(field, snake) == False:
 
     #checks to see if the game is over to run this part of code
     if is_game_over(field, snake) == False:
-        #DELETE THE LINE BELOW
+
+        #Debug code: prints distance to orb
         #print(distance_to_orb(orb, snake))
 
         #gather user input
         direction = str(input(": "))
+        while direction != "w" and direction != "a" and direction != "s" and direction != "d":
+            direction = str(input(": "))
 
         #check to see if the snake has landed on the orb
         if snake_is_on_orb(orb, grow_snake(snake, direction)) == True:
@@ -148,6 +157,7 @@ while is_game_over(field, snake) == False:
         else:
             snake = remove_snake_tail(snake, direction)
 
+            #changes light color when the user gets closer to the orb
             if(distance_to_orb(orb, snake) < temp):
                 if(color == "red"):
                     bright+=0.1
@@ -158,6 +168,7 @@ while is_game_over(field, snake) == False:
                     bright = 0.1
                     update_light(color, bright)
                     temp = distance_to_orb(orb, snake)
+            #changes light color when the user gets further from the orb
             else:
                 if(color == "blue"):
                     bright+=0.1
@@ -168,7 +179,8 @@ while is_game_over(field, snake) == False:
                     bright = 0.1
                     update_light(color, bright)
                     temp = distance_to_orb(orb, snake)
-#game over screen with score
+
+#game ending lamp flashes
 bright = 1
 color = "orange"
 update_light(color, bright)
@@ -181,6 +193,7 @@ update_light(color, bright)
 payload = {
     "power": "off",
 }
+#game over screen with score
 api.put(payload)
 print("\n\n")
 print("-----------------------------------------")
