@@ -30,7 +30,7 @@ def update_field(fld, size, snk, orb_loc):
                 field[x][y] = " "
 
     #construct the snake with a delta for a head
-    fld[snk[0][0]][snk[0][1]] = "^"
+    fld[snk[0][0]][snk[0][1]] = "Δ"
     for x in range(1, len(snk)):
         fld[snk[x][0]][snk[x][1]] = "X"
 
