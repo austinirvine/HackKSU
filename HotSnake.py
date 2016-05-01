@@ -74,6 +74,7 @@ def create_orb(fld, size):
 #checks to see if the snake has landed on the orb
 def snake_is_on_orb(orb_loc, snk):
     if [snk[0][0],snk[0][1]] == orb_loc:
+        update_light("green", 1)
         return True
     else:
         return False
@@ -81,6 +82,13 @@ def snake_is_on_orb(orb_loc, snk):
 #returns the distance from the snake's head to the orb
 def distance_to_orb(orb_loc, snk):
     return(abs(orb_loc[0]-snk[0][0]) + abs(orb_loc[1] - snk[0][1]))
+
+def update_light(color, bright):
+    payload = {
+        "color": color,
+        "brightness": bright,
+    }
+    api.put(payload)
 
 ################################################################################
 
@@ -90,13 +98,13 @@ snake = []
 size = 20
 direction = 3
 orb = []
-
-print(api.get())
+temp = 0
+color = "white"
+bright = 1
 
 payload = {
-    "power": "off",
+    "power": "on",
 }
-
 api.put(payload)
 
 #create initial snake
@@ -116,6 +124,8 @@ for x in range(0, size):
 #create initial orb
 orb = create_orb(field, size)
 field = update_field(field, size, snake, orb)
+temp = distance_to_orb(orb, snake)
+update_light(color, bright)
 
 #the game loop; runs until game over is reached
 while is_game_over(field, snake) == False:
@@ -125,17 +135,53 @@ while is_game_over(field, snake) == False:
     #checks to see if the game is over to run this part of code
     if is_game_over(field, snake) == False:
         #DELETE THE LINE BELOW
-        print(distance_to_orb(orb, snake))
+        #print(distance_to_orb(orb, snake))
+
         #gather user input
         direction = str(input(": "))
 
         #check to see if the snake has landed on the orb
         if snake_is_on_orb(orb, grow_snake(snake, direction)) == True:
+            color = "green"
             orb = create_orb(field, size)
+            temp = distance_to_orb(orb, snake)
         else:
             snake = remove_snake_tail(snake, direction)
 
+            if(distance_to_orb(orb, snake) < temp):
+                if(color == "red"):
+                    bright+=0.1
+                    update_light(color, bright)
+                    temp = distance_to_orb(orb, snake)
+                else:
+                    color = "red"
+                    bright = 0.1
+                    update_light(color, bright)
+                    temp = distance_to_orb(orb, snake)
+            else:
+                if(color == "blue"):
+                    bright+=0.1
+                    update_light(color, bright)
+                    temp = distance_to_orb(orb, snake)
+                else:
+                    color = "blue"
+                    bright = 0.1
+                    update_light(color, bright)
+                    temp = distance_to_orb(orb, snake)
 #game over screen with score
+bright = 1
+color = "orange"
+update_light(color, bright)
+color = "green"
+update_light(color, bright)
+color = "purple"
+update_light(color, bright)
+color = "white"
+update_light(color, bright)
+payload = {
+    "power": "off",
+}
+api.put(payload)
 print("\n\n")
 print("-----------------------------------------")
 print("               -Game Over-\n")
