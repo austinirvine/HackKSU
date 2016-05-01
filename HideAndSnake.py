@@ -34,7 +34,7 @@ def update_field(fld, size, snk, orb_loc):
     for x in range(1, len(snk)):
         fld[snk[x][0]][snk[x][1]] = "X"
 
-    #to see the orb, uncomment the following line
+    #DEBUG CODE: Makes orb appear on screen
     #fld[orb_loc[0]][orb_loc[1]] = "O"
 
     return(fld)
@@ -141,7 +141,7 @@ while is_game_over(field, snake) == False:
     #checks to see if the game is over to run this part of code
     if is_game_over(field, snake) == False:
 
-        #Debug code: prints distance to orb
+        #DEBUG CODE: prints distance to orb
         #print(distance_to_orb(orb, snake))
 
         #gather user input
