@@ -1,5 +1,6 @@
 from __future__ import print_function
 import random
+import api
 
 #grows the snake one forward
 def grow_snake(snk, dir):
@@ -89,6 +90,14 @@ snake = []
 size = 20
 direction = 3
 orb = []
+
+print(api.get())
+
+payload = {
+    "power": "off",
+}
+
+api.put(payload)
 
 #create initial snake
 snake.append([int(size / 2), int(size / 2)])
