@@ -1,7 +1,5 @@
-#c1229c312e86cc5f733a7d9b41fba6728d92fe4469514e8f4d34db7b67bc0362
-
 import requests
-token =  "c1229c312e86cc5f733a7d9b41fba6728d92fe4469514e8f4d34db7b67bc0362"
+token =  SECRET
 
 headers = {
     "Authorization": "Bearer %s" % token,
